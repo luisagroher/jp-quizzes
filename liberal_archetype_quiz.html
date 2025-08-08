@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liberal Philosophy Archetype Quiz</title>
+    <style>
+        body {
+            font-family: Georgia, serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background: #fefefe;
+            color: #333;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #2c5aa0;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #2c5aa0;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            font-style: italic;
+        }
+        .question {
+            background: #f8f9fa;
+            border-left: 4px solid #2c5aa0;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .question h3 {
+            color: #2c5aa0;
+            margin-top: 0;
+        }
+        .options {
+            margin-top: 15px;
+        }
+        .option {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .option:hover {
+            background: #e3f2fd;
+            border-color: #2c5aa0;
+        }
+        .option.selected {
+            background: #2c5aa0;
+            color: white;
+            border-color: #1a4480;
+        }
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+        .results {
+            display: none;
+            background: #e8f5e8;
+            border: 2px solid #4caf50;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+        .results h2 {
+            color: #2e7d32;
+            margin-top: 0;
+        }
+        .archetype-score {
+            margin: 15px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            border-left: 4px solid #4caf50;
+        }
+        .calculate-btn {
+            background: #2c5aa0;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            transition: background 0.3s;
+        }
+        .calculate-btn:hover {
+            background: #1a4480;
+        }
+        .progress {
+            background: #f0f0f0;
+            height: 8px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .progress-bar {
+            background: #2c5aa0;
+            height: 100%;
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Liberal Philosophy Archetype Quiz</h1>
+        <p class="subtitle">Discover which tradition of liberal thought aligns with your intuitions</p>
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </div>
+
+    <form id="quizForm">
+        <div class="question">
+            <h3>1. Economic Redistribution</h3>
+            <p>A society has significant wealth inequality, but everyone's basic needs are met and there's economic mobility. The government is considering wealth redistribution policies.</p>
+            <div class="options">
+                <div class="option" onclick="selectOption(this, 'q1', 'libertarian')">
+                    <input type="radio" name="q1" value="libertarian" id="q1_libertarian">
+                    <label for="q1_libertarian">No redistribution - if earned fairly, people deserve what they have</label>
+                </div>
+                <div class="option" onclick="selectOption(this, 'q1', 'classical')">
+                    <input type="radio" name="q1" value="classical" id="q1_classical">
+                    <label for="q1_classical">Minimal redistribution only for basic safety net</label>
+                </div>
+                <div class="option" onclick="selectOption(this, 'q1', 'utilitarian')">
+                    <input type="radio" name="q1" value="utilitarian" id="q1_utilitarian">
+                    <label for="q1_utilitarian">Redistribute if it increases overall societal well-being</label>
+                </div>
+                <div class="option" onclick="selectOption(this, 'q1', 'social')">
+                    <input type="radio" name="q1" value="social" id="q1_social">
+                    <label for="q1_social">Significant redistribution to ensure fair equality of opportunity</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <h3>2. Drug Policy</h3>
+            <p>The government is debating policy on recreational drug use. Studies show some drugs cause personal harm but limited harm to others.</p>
+            <div class="options">
+                <div class="option" onclick="selectOption(this, 'q2', 'classical')">
+                    <input type="radio" name="q2" value="classical" id="q2_classical">
+                    <label for="q2_classical">Legalize - people should be free to harm themselves if they choose</label>
+                </div>
+                <div class="option" onclick="selectOption(this, 'q2', 'perfectionist')">
+                    <input type="radio" name="q2" value="perfectionist" id="q2_perfectionist">
+                    <label for="q2_perfectionist">Prohibit harmful drugs - the state should protect people from poor choices</label>
+                </div>
+                <div class="option" onclick="selectOption(this, 'q2', 'utilitarian')">
+                    <input type="radio" name="q2" value="utilitarian" id="q2_utilitarian">
+                    <label for="q2_utilitarian">Policy should depend on overall costs vs. benefits to society</label>
+                </div>
+                <div class="option" onclick="selectOption(this, 'q2', 'social')">
+                    <input type="radio" name="q2" value="social" id="q2_social">
+                    <label for="q2_social">Focus on treatment and addressing underlying social causes</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <h3>3. Education Funding</h3>
+            <p>A community is deciding how to fund education. Private schools exist alongside public ones.</p>
+            <div class="options">
+                <div class="option" onclick="selectOption(this, 'q3', 'libertarian')">
+                    <input type="radio" name="q3" value="libertarian" id="q3_libertarian">
+                    <label for="q3_libertarian">Privatize education - let market competition drive quality</label>
+                </div>
+                <div class="option" onclick="selectOption(this, 'q3', 'classical')">
+                    <input type="radio" name="q3" value="classical" id="q3_classical">
+                    <label for="q3_classical">Basic public education with private options allowed</label>
+                </div>
+                <div class="option" onclick="selectOption(this, 'q3', 'social')">
+                    <input type="radio" name="q3" value="social" id="q3_social">
+                    <label for="q3_social">Robust public funding to ensure equal educational opportunities</label>
+                </div>
+                <div class="option" onclick="selectOption(this, 'q3', 'perfectionist')">
+                    <input type="radio" name="q3" value="perfectionist" id="q3_perfectionist">
+                    <label for="q3_perfectionist">Public education should actively promote valuable knowledge and skills</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <h3>4. Corporate Regulation</h3>
+            <p>A large tech company has practices that some find manipulative but aren't clearly harmful. Users can choose competitors.</p>
+            <div class="options">
+                <div class="option" onclick="selectOption(this, 'q4', 'libertarian')">
+                    <input type="radio" name="q4" value="libertarian" id="q4_libertarian">
+                    <label for="q4_libertarian">No regulation needed - consumers can vote with their wallets</label>
+                </div>
+                <div class="option" onclick="selectOption(this, 'q4', 'classical')">
+                    <input type="radio" name="q4" value="classical" id="q4_classical">
+                    <label for="q4_classical">Regulate only if there's clear harm to others</label>
+                </div>
+                <div class="option" onclick="selectOption(this, 'q4', 'social')">
+                    <input type="radio" name="q4" value="social" id="q4_social">
+                    <label for="q4_social">Regulate to protect vulnerable populations and ensure fair competition</label>
+                </div>
+                <div class="option" onclick="selectOption(this, 'q4', 'utilitarian')">
+                    <input type="radio" name="q4" value="utilitarian" id="q4_utilitarian">
+                    <label for="q4_utilitarian">Regulate if the total benefits exceed the costs</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <h3>5. Healthcare System</h3>
+            <p>A country is designing its healthcare system from scratch.</p>
+            <div class="options">
+                <div class="option" onclick="selectOption(this, 'q5', 'libertarian')">
+                    <input type="radio" name="q5" value="libertarian" id="q5_libertarian">
+                    <label for="q5_libertarian">Free market system - individuals purchase their own insurance</label>
+                </div>
+                <div class="option" onclick="selectOption(this, 'q5', 'classical')">
+                    <input type="radio" name="q5" value="classical" id="q5_classical">
+                    <label for="q5_classical">Mixed system with safety net for emergency care</label>
+                </div>
+                <div class="option" onclick="selectOption(this, 'q5', 'social')">
+                    <input type="radio" name="q5" value="social" id="q5_social">
+                    <label for="q5_social">Universal healthcare as a matter of equal opportunity</label>
+                </div>
+                <div class="option" onclick="selectOption(this, 'q5', 'utilitarian')">
+                    <input type="radio" name="q5" value="utilitarian" id="q5_utilitarian">
+                    <label for="q5_utilitarian">Whatever system produces the best health outcomes per dollar</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <h3>6. Religious Expression in Public Spaces</h3>
+            <p>A community is debating whether to allow religious symbols in public buildings.</p>
+            <div class="options">
+                <div class="option" onclick="selectOption(this, 'q6', 'constitutional')">
+                    <input type="radio" name="q6" value="constitutional" id="q6_constitutional">
+                    <label for="q6_constitutional">No religious symbols - public institutions must be neutral</label>
+                </div>
+                <div class="option" onclick="selectOption(this, 'q6', 'classical')">
+                    <input type="radio" name="q6" value="classical" id="q6_classical">
+                    <label for="q6_classical">Allow if part of historical tradition, prohibit new endorsements</label>
+                </div>
+                <div class="option" onclick="selectOption(this, 'q6', 'perfectionist')">
+                    <input type="radio" name="q6" value="perfectionist" id="q6_perfectionist">
+                    <label for="q6_perfectionist">Allow symbols that promote valuable moral principles</label>
+                </div>
+                <div class="option" onclick="selectOption(this, 'q6', 'utilitarian')">
+                    <input type="radio" name="q6" value="utilitarian" id="q6_utilitarian">
+                    <label for="q6_utilitarian">Whatever policy creates the most social harmony</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <h3>7. Economic Crisis Response</h3>
+            <p>During a severe recession, unemployment is high and many businesses are failing.</p>
+            <div class="options">
+                <div class="option" onclick="selectOption(this, 'q7', 'libertarian')">
+                    <input type="radio" name="q7" value="libertarian" id="q7_libertarian">
+                    <label for="q7_libertarian">Let market forces work - government intervention prolongs problems</label>
+                </div>
+                <div class="option" onclick="selectOption(this, 'q7', 'classical')">
+                    <input type="radio" name="q7" value="classical" id="q7_classical">
+                    <label for="q7_classical">Limited intervention to prevent complete collapse</label>
+                </div>
+                <div class="option" onclick="selectOption(this, 'q7', 'social')">
+                    <input type="radio" name="q7" value="social" id="q7_social">
+                    <label for="q7_social">Active government spending to maintain employment and opportunity</label>
+                </div>
+                <div class="option" onclick="selectOption(this, 'q7', 'utilitarian')">
+                    <input type="radio" name="q7" value="utilitarian" id="q7_utilitarian">
+                    <label for="q7_utilitarian">Whatever combination of policies minimizes total suffering</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <h3>8. Lifestyle Choices</h3>
+            <p>Some citizens live in ways that seem unfulfilling but aren't harming others - working dead-end jobs, consuming mindless entertainment, avoiding personal growth.</p>
+            <div class="options">
+                <div class="option" onclick="selectOption(this, 'q8', 'classical')">
+                    <input type="radio" name="q8" value="classical" id="q8_classical">
+                    <label for="q8_classical">Their choice - freedom means accepting some will choose poorly</label>
+                </div>
+                <div class="option" onclick="selectOption(this, 'q8', 'perfectionist')">
+                    <input type="radio" name="q8" value="perfectionist" id="q8_perfectionist">
+                    <label for="q8_perfectionist">Government should gently encourage more fulfilling choices</label>
+                </div>
+                <div class="option" onclick="selectOption(this, 'q8', 'social')">
+                    <input type="radio" name="q8" value="social" id="q8_social">
+                    <label for="q8_social">Address structural barriers that limit people's real options</label>
+                </div>
+                <div class="option" onclick="selectOption(this, 'q8', 'constitutional')">
+                    <input type="radio" name="q8" value="constitutional" id="q8_constitutional">
+                    <label for="q8_constitutional">Government shouldn't judge what constitutes a good life</label>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="calculate-btn" onclick="calculateResults()">Calculate My Liberal Archetype</button>
+    </form>
+
+    <div class="results" id="results">
+        <h2>Your Liberal Philosophy Profile</h2>
+        <div id="resultContent"></div>
+    </div>
+
+    <script>
+        const archetypes = {
+            classical: {
+                name: "Classical Liberal",
+                description: "You emphasize individual liberty, limited government, and the harm principle. You believe in negative liberty - freedom from interference - and support market mechanisms with minimal state intervention.",
+                thinkers: "John Stuart Mill, John Locke, Adam Smith"
+            },
+            libertarian: {
+                name: "Libertarian Liberal", 
+                description: "You prioritize individual autonomy above almost all other values. You favor minimal state intervention in both personal and economic matters, trusting voluntary association and market forces.",
+                thinkers: "Robert Nozick, Ayn Rand, Friedrich Hayek"
+            },
+            social: {
+                name: "Social Liberal",
+                description: "You believe true freedom requires not just absence of interference, but access to opportunities and resources. You support active government intervention to ensure fair equality of opportunity.",
+                thinkers: "John Rawls, Ronald Dworkin, John Stuart Mill (in some interpretations)"
+            },
+            utilitarian: {
+                name: "Utilitarian Liberal",
+                description: "You ground liberal institutions in their consequences for overall well-being rather than inherent rights. You're willing to trade off individual freedoms when the benefits clearly outweigh the costs.",
+                thinkers: "Jeremy Bentham, John Stuart Mill (utilitarian writings), Peter Singer"
+            },
+            perfectionist: {
+                name: "Perfectionist Liberal",
+                description: "You believe the state can legitimately promote human flourishing and valuable ways of life, not just protect negative liberty. You're comfortable with policies that help people live genuinely good lives.",
+                thinkers: "Joseph Raz, some interpretations of Aristotle, T.H. Green"
+            },
+            constitutional: {
+                name: "Constitutional/Political Liberal",
+                description: "You focus on creating fair political institutions that people with different worldviews can accept. You emphasize public reason, political legitimacy, and neutrality between competing conceptions of the good life.",
+                thinkers: "John Rawls (later work), Charles Larmore, Samuel Freeman"
+            }
+        };
+
+        let questionCount = 8;
+        let answeredQuestions = 0;
+
+        function selectOption(element, questionName, value) {
+            // Remove selected class from all options in this question
+            const questionDiv = element.closest('.question');
+            questionDiv.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            
+            // Add selected class to clicked option
+            element.classList.add('selected');
+            
+            // Check the radio button
+            element.querySelector('input[type="radio"]').checked = true;
+            
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const form = document.getElementById('quizForm');
+            const formData = new FormData(form);
+            answeredQuestions = 0;
+            
+            for (let i = 1; i <= questionCount; i++) {
+                if (formData.get(`q${i}`)) {
+                    answeredQuestions++;
+                }
+            }
+            
+            const progress = (answeredQuestions / questionCount) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function calculateResults() {
+            const form = document.getElementById('quizForm');
+            const formData = new FormData(form);
+            
+            if (answeredQuestions < questionCount) {
+                alert(`Please answer all questions. You have answered ${answeredQuestions} out of ${questionCount}.`);
+                return;
+            }
+
+            const scores = {};
+            Object.keys(archetypes).forEach(key => scores[key] = 0);
+
+            // Count responses
+            for (let i = 1; i <= questionCount; i++) {
+                const answer = formData.get(`q${i}`);
+                if (answer && scores.hasOwnProperty(answer)) {
+                    scores[answer]++;
+                }
+            }
+
+            // Sort by score
+            const sortedResults = Object.entries(scores)
+                .sort(([,a], [,b]) => b - a)
+                .filter(([,score]) => score > 0);
+
+            displayResults(sortedResults);
+        }
+
+        function displayResults(sortedResults) {
+            const resultsDiv = document.getElementById('results');
+            const contentDiv = document.getElementById('resultContent');
+            
+            let html = '';
+            
+            if (sortedResults.length === 0) {
+                html = '<p>Please complete the quiz to see your results.</p>';
+            } else {
+                const [topArchetype, topScore] = sortedResults[0];
+                const archetype = archetypes[topArchetype];
+                
+                html += `<div class="archetype-score" style="border-left-color: #2e7d32; background: #f1f8e9;">`;
+                html += `<h3>Primary Match: ${archetype.name} (${topScore}/${questionCount})</h3>`;
+                html += `<p><strong>Description:</strong> ${archetype.description}</p>`;
+                html += `<p><strong>Key Thinkers:</strong> ${archetype.thinkers}</p>`;
+                html += `</div>`;
+                
+                if (sortedResults.length > 1) {
+                    html += '<h3>Other Alignments:</h3>';
+                    for (let i = 1; i < Math.min(sortedResults.length, 4); i++) {
+                        const [archetypeName, score] = sortedResults[i];
+                        const archetype = archetypes[archetypeName];
+                        html += `<div class="archetype-score">`;
+                        html += `<strong>${archetype.name}</strong> (${score}/${questionCount}): ${archetype.description}`;
+                        html += `</div>`;
+                    }
+                }
+                
+                html += `<p style="margin-top: 20px; font-style: italic;">Remember, these are rough approximations. Most people's views combine elements from multiple traditions, and there's significant diversity within each school of thought.</p>`;
+            }
+            
+            contentDiv.innerHTML = html;
+            resultsDiv.style.display = 'block';
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize progress bar
+        updateProgress();
+    </script>
+</body>
+</html>
